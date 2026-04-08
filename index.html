@@ -80,7 +80,7 @@ function PasswordModal({ payload, onConfirm, onCancel }) {
     setBusy(true); setErr('');
     try {
       const raw = payload.replace(/^QR-AES256GCM:/,'');
-      const plain = await decryptData(raw, pass);
+      const plain = await decryptData(raw, pass.trim());
       onConfirm(plain);
     } catch { setErr('Contraseña incorrecta o datos corruptos.'); }
     setBusy(false);
@@ -161,8 +161,10 @@ function ReaderTab() {
 
   const handleDetected = (raw) => {
     setError('');
-    if (!raw.startsWith('QR-AES256GCM:')) { setError('Este QR no fue generado con este sistema.'); return; }
-    setModal(raw);
+    // Limpieza agresiva: quita espacios, saltos de línea y caracteres invisibles
+    const cleaned = raw.trim().replace(/\s+/g, '').replace(/[^\x20-\x7E]/g, '');
+    if (!cleaned.startsWith('QR-AES256GCM:')) { setError('Este QR no fue generado con este sistema.'); return; }
+    setModal(cleaned);
   };
 
   const startCamera = async () => {
@@ -215,7 +217,7 @@ function ReaderTab() {
   };
 
   const handlePayloadDecode = () => {
-    const raw = payloadText.trim();
+    const raw = payloadText.trim().replace(/\s+/g, '').replace(/[^\x20-\x7E]/g, '');
     if (!raw) { setError('Pega un payload primero.'); return; }
     handleDetected(raw.startsWith('QR-AES256GCM:') ? raw : 'QR-AES256GCM:'+raw);
   };
@@ -356,10 +358,10 @@ function GeneratorTab() {
     debounceRef.current=setTimeout(async()=>{
       setEncError('');
       const raw=getRawData();
-      if(!raw||!password||password.length<6){ setQrData(''); renderQR(''); return; }
+      if(!raw||!password||password.trim().length<6){ setQrData(''); renderQR(''); return; }
       setEncrypting(true);
       try {
-        const cipher=await encryptData(raw,password);
+        const cipher=await encryptData(raw, password.trim());
         const payload=`QR-AES256GCM:${cipher}`;
         setQrData(payload); renderQR(payload);
       } catch { setEncError('Error al cifrar.'); }
