@@ -278,6 +278,9 @@ function ReaderTab() {
           <div>
             <label className={lbl}>Payload del QR cifrado</label>
             <textarea className={inp+' font-mono'} rows={4} placeholder="QR-AES256GCM:…" value={payloadText} onChange={e=>setPayloadText(e.target.value)}/>
+          <div className="bg-gray-100 rounded-lg px-3 py-2 text-xs text-gray-500 font-mono break-all">
+            Longitud: {payloadText.trim().length} | Empieza con: "{payloadText.trim().substring(0,20)}"
+          </div>
           </div>
           <button onClick={handlePayloadDecode} disabled={!payloadText}
             className="w-full flex items-center justify-center gap-2 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-40 text-sm font-medium">
