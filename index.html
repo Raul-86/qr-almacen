@@ -96,6 +96,9 @@ function PasswordModal({ payload, onConfirm, onCancel }) {
           </div>
         </div>
         <PasswordInput autoFocus value={pass} onChange={e=>setPass(e.target.value)} placeholder="Contraseña de cifrado"/>
+        <div className="bg-gray-100 rounded-lg px-3 py-2 text-xs text-gray-500 font-mono break-all">
+          Caracteres: {pass.length} | Hex: {Array.from(pass).map(c=>c.charCodeAt(0).toString(16)).join(' ')}
+        </div>
         {err && <p className="text-sm text-red-500 bg-red-50 rounded-lg px-3 py-2">{err}</p>}
         <div className="flex gap-3">
           <button onClick={onCancel} className="flex-1 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-medium">Cancelar</button>
@@ -401,6 +404,9 @@ function GeneratorTab() {
         </div>
         <div className="flex-1 w-full">
           <PasswordInput value={password} onChange={e=>setPassword(e.target.value)} placeholder="Mínimo 6 caracteres"/>
+          <div className="bg-indigo-800 rounded-lg px-3 py-2 text-xs text-indigo-300 font-mono break-all mt-1">
+            Caracteres: {password.length} | Hex: {Array.from(password).map(c=>c.charCodeAt(0).toString(16)).join(' ')}
+          </div>
         </div>
         {password && password.length<6 && <span className="text-red-400 text-xs whitespace-nowrap">Mín. 6 caracteres</span>}
       </div>
