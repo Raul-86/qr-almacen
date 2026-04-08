@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#4f46e5" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="QR Almacén" />
+    <meta name="description" content="Generador y lector de códigos QR cifrados con AES-256-GCM" />
+
+    <title>QR Almacén Seguro</title>
+
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- React + ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Babel (transpila JSX en el navegador) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Lucide icons -->
+    <script src="https://unpkg.com/lucide-react@0.383.0/dist/umd/lucide-react.min.js"></script>
+
+    <style>
+      body { margin: 0; background: #f9fafb; }
+      /* Evita el rebote en iOS */
+      html, body { overscroll-behavior: none; }
+      /* Safe area para iPhone con notch */
+      .safe-top    { padding-top:    env(safe-area-inset-top); }
+      .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+    </style>
+  </head>
+  <body class="safe-top safe-bottom">
+    <div id="root"></div>
+
+    <!-- App: pega aquí TODO el contenido del artefacto descargado entre estas etiquetas -->
+    <script type="text/babel">
+
+      // ← PEGA AQUÍ EL CONTENIDO COMPLETO DEL ARCHIVO DESCARGADO
+
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
+
+    <!-- Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('SW registrado:', reg.scope))
+            .catch(err => console.warn('SW error:', err));
+        });
+      }
+    </script>
+  </body>
+</html>
