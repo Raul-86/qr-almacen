@@ -1,4 +1,4 @@
-const CACHE_NAME = 'qr-almacen-v1';
+const CACHE_NAME = 'qr-almacen-v3';
 
 // Archivos que se guardan en caché para uso offline
 const ASSETS = [
